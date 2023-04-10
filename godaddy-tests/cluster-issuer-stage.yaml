@@ -1,0 +1,25 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-cluster-issuer-staging
+  namespace: cert-manager
+spec:
+  acme:
+    email: ${EMAIL}
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - selector:
+          dnsNames:
+            - '*.${DOMAIN_NAME}.com'
+        dns01:
+          webhook:
+            config:
+              apiKeySecretRef:
+                name: godaddy-api-key
+                key: token
+            production: true
+            ttl: 600
+          groupName: acme.${DOMAIN_NAME}.com
+          solverName: godaddy

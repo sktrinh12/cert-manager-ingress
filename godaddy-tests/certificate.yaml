@@ -1,0 +1,12 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: wildcard-${DOMAIN_NAME}-com
+spec:
+  secretName: wildcard-${DOMAIN_NAME}-com-tls
+  renewBefore: 240h
+  dnsNames:
+    - '*.${DOMAIN_NAME}.com'
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
